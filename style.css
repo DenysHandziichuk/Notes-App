@@ -1,3 +1,51 @@
+/* === Root variables for light theme (default) === */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #222222;
+  --header-bg: #f0f0f0;
+  --input-bg: #e0e0e0;
+  --input-text: #222222;
+  --note-bg: #fafafa;
+  --note-border: #ddd;
+  --modal-bg: #ffffff;
+  --button-bg: #007bff;
+  --button-hover-bg: #0056b3;
+  --folder-bg: #e0e0e0;
+  --ease-elastic-3: cubic-bezier(0.5, 1.4, 0.5, 1);
+  --ease-elastic-4: cubic-bezier(0.5, 1.6, 0.5, 1);
+  --ease-3: ease;
+  --ease-out-5: cubic-bezier(0, 0, 0.3, 1);
+  --folder-active-bg: #b0b0ff;
+  --overlay-bg: rgba(0,0,0,0.7);
+  --icon-color: #444;     
+  --icon-hover-bg: rgba(0,0,0,0.1);
+}
+
+/* === Dark theme overrides === */
+[data-theme="dark"] {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --header-bg: #1e1e1e;
+  --input-bg: #2a2a2a;
+  --input-text: #e0e0e0;
+  --note-bg: #2a2a2a;
+  --note-border: #444;
+  --modal-bg: #1e1e1e;
+  --button-bg: #007bff;
+  --button-hover-bg: #0056b3;
+  --folder-bg: #333344;
+  --folder-active-bg: #5050aa;
+  --overlay-bg: rgba(0, 0, 0, 0.7);
+  --icon-color: #eee;
+  --icon-hover-bg: rgba(255,255,255,0.15);
+}
+
+:root, body, .app, header, main, .modal-content, .note-card, input, select, button, .folders button {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+
+/* === Global Styles === */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -5,9 +53,10 @@
 }
 
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #121212;
-  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
   min-height: 100vh;
   padding: 20px;
 }
@@ -25,6 +74,9 @@ header {
   justify-content: space-between;
   margin-bottom: 20px;
   flex-wrap: wrap;
+  background: var(--header-bg);
+  padding: 10px 20px;
+  border-radius: 8px;
 }
 
 header input[type="text"] {
@@ -32,13 +84,13 @@ header input[type="text"] {
   padding: 10px;
   border-radius: 8px;
   border: none;
-  background: #1e1e1e;
-  color: white;
+  background: var(--input-bg);
+  color: var(--input-text);
   min-width: 200px;
 }
 
 header button {
-  background: #333;
+  background: var(--button-bg);
   color: white;
   border: none;
   padding: 10px 14px;
@@ -47,9 +99,8 @@ header button {
   transition: background 0.2s;
 }
 
-
 header button:hover {
-  background: #444;
+  background: var(--button-hover-bg);
 }
 
 main h1 {
@@ -57,22 +108,21 @@ main h1 {
 }
 
 .checkbox {
-    justify-content: right;
-    display: flex;
-    align-items: center;
-    padding-bottom: 19px;
+  justify-content: right;
+  display: flex;
+  align-items: center;
+  padding-bottom: 19px;
 }
 
-main input {
-  display: inline-block;
+main input[type="checkbox"] {
   width: 20px;
   height: 20px;
-  background: #333;
+  background: var(--input-bg);
   border-radius: 4px;
   vertical-align: middle;
   margin-right: 8px;
-  position: relative;
   cursor: pointer;
+  border: 1px solid var(--note-border);
   transition: background 0.3s;
 }
 
@@ -83,11 +133,15 @@ main input {
 }
 
 .note-card {
-  background: #2a2a2a;
+  position: relative;
+  background: var(--note-bg);
   border-radius: 12px;
   padding: 20px;
   min-height: 100px;
   word-wrap: break-word;
+  border: 1px solid var(--note-border);
+  color: var(--text-color);
+  padding-top: 40px;
 }
 
 .note-card strong {
@@ -96,88 +150,83 @@ main input {
   font-size: 1.1rem;
 }
 
+
 #addNoteBtn {
   position: fixed;
   bottom: 20px;
-  right: 460px;
-  background: #ff9800;
+  right: 40px;
+  background-color: var(--button-bg);
+  color: white;
   border: none;
   border-radius: 50%;
   width: 50px;
   height: 50px;
-  font-size: 24px;
-  color: white;
+  font-size: 30px;
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  transition: background-color 0.3s ease;
+  z-index: 1500;
 }
 
+#addNoteBtn:hover {
+  background-color: var(--button-hover-bg);
+}
+
+/* Modal styles */
 .modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: none;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: none; /* hidden initially */
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  background-color: var(--overlay-bg);
+  z-index: 2000;
 }
 
 .modal-content {
-  background-color: #1e1e1e;
+  background-color: var(--modal-bg);
+  color: var(--text-color);
   padding: 20px;
   border-radius: 12px;
-  width: 320px;
+  width: 700px;
   max-width: 90vw;
   max-height: 80vh;
   overflow-y: auto;
-  overflow-x: hidden;
-  color: white;
   display: flex;
   flex-direction: column;
   gap: 12px;
   box-sizing: border-box;
   position: relative;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
 .modal-content input,
-.modal-content textarea,
-.modal-content button {
-  width: 100%;
-  box-sizing: border-box;
+.modal-content select,
+.editor {
+  background-color: var(--input-bg);
+  color: var(--input-text);
+  border: 1px solid var(--note-border);
+  border-radius: 6px;
   padding: 10px;
-  border-radius: 8px;
   font-size: 1rem;
-  border: 1px solid #555;
-  background: #333;
-  color: white;
 }
-
-.modal-content textarea {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  overflow-x: hidden;
-  resize: none;
-  height: auto;
-  max-height: 150px;
-}
-
 
 .modal-content button {
-  background: #ff9800;
+  background-color: var(--button-bg);
   font-weight: bold;
   cursor: pointer;
   border: none;
-  transition: background 0.2s;
-  color: black;
   padding: 12px;
-  margin: 0;
+  color: white;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  width: 100%;
+  margin-top: 10px;
 }
 
 .modal-content button:hover {
-  background: #ffa726;
+  background-color: var(--button-hover-bg);
 }
 
 .close-btn {
@@ -186,5 +235,176 @@ main input {
   right: 14px;
   cursor: pointer;
   font-size: 18px;
-  color: white;
+  color: var(--text-color);
+}
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+  border: 1px solid var(--note-border);
+  padding: 6px;
+  background: var(--input-bg);
+  margin-bottom: 10px;
+  border-radius: 6px;
+  align-items: center;
+}
+
+.toolbar select,
+.toolbar button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px;
+  color: var(--text-color);
+}
+
+.toolbar button:hover,
+.toolbar select:hover {
+  background: var(--button-hover-bg);
+  border-radius: 4px;
+}
+
+.toolbar button.active {
+  background: var(--button-hover-bg);
+  border-radius: 4px;
+}
+
+/* Folders UI */
+.folders {
+  display: flex;
+  gap: 8px;
+  padding: 10px 0;
+}
+
+.folders button {
+  background: var(--folder-bg);
+  border: none;
+  padding: 8px 14px;
+  font-size: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  color: var(--text-color);
+}
+
+.folders button:hover {
+  background-color: var(--folder-active-bg);
+}
+
+.folders button.active {
+  background-color: var(--folder-active-bg);
+  font-weight: bold;
+}
+
+/* Editor */
+.editor {
+  min-height: 330px;
+  border: 1px solid var(--note-border);
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  background-color: var(--input-bg);
+  color: var(--input-text);
+  overflow-wrap: break-word;
+  outline: none;
+}
+
+.note-actions {
+  position: absolute;
+  top: 8px;
+  right: 6px;
+  display: flex;
+  gap: 6px;
+}
+
+.note-actions button {
+  background: transparent;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: var(--icon-color);
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.note-actions button:hover {
+  background-color: var(--icon-hover-bg);
+}
+
+.sun-and-moon > .sun {
+  transition: transform 0.5s var(--ease-elastic-3);
+}
+
+.sun-and-moon > .sun-beams {
+  transition: transform 0.5s var(--ease-elastic-4), opacity 0.5s var(--ease-3);
+}
+
+.sun-and-moon .moon > circle {
+  transition: transform 0.25s var(--ease-out-5);
+}
+
+.theme-toggle {
+  transition: transform 0.3s ease;
+}
+
+.sun-and-moon > .sun,
+.sun-and-moon > .sun-beams,
+.sun-and-moon .moon > circle {
+  transition: all 0.4s ease;
+}
+
+/* Dark mode transforms */
+[data-theme="dark"] .sun-and-moon > .sun {
+  transform: scale(5);
+  transform: translateY(0);
+}
+
+[data-theme="dark"] .sun-and-moon > .sun-beams {
+  opacity: 0;
+  transform: rotateZ(-25deg);
+}
+
+
+/* Fallback if browser supports cx better */
+@supports (cx: 1) {
+  [data-theme="dark"] .sun-and-moon > .moon > circle {
+    cx: 17;
+    transform: translateX(0);
+  }
+}
+
+.sun-and-moon {
+  display: block;
+  width: 27px;
+  height: 27px;
+}
+
+.sun-and-moon > .moon > circle {
+  transform-origin: center;
+  transition: transform 0.25s ease;
+  transform: translateX(0);
+}
+
+
+#githubLogo {
+  width: 50px;         
+  height: 50px;      
+  cursor: pointer;      
+  border-radius: 6px;    
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease;
+  vertical-align: middle;
+  margin-left: 0px;
+  display: inline-block;
+}
+
+#githubLogo:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }

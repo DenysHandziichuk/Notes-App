@@ -5,14 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Notes App</title>
   <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 <body>
   <div class="app">
     <header>
       <input type="text" id="search" placeholder="Search notes..." />
       <button id="search-button"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg></button>
-      <button id="toggleTheme">🎨 Theme</button>
-      <button onclick="clearLocalStorage()">Clear Local Storage</button>
+      <button class="theme-toggle" id="theme-toggle" title="Toggles light & dark" aria-label="auto" aria-live="polite">
+  <svg class="sun-and-moon" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
+    <mask class="moon" id="moon-mask">
+      <rect x="0" y="0" width="100%" height="100%" fill="white" />
+      <circle cx="24" cy="10" r="6" fill="black" />
+    </mask>
+    <circle class="sun" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor" />
+    <g class="sun-beams" stroke="currentColor">
+      <line x1="12" y1="1" x2="12" y2="3" />
+      <line x1="12" y1="21" x2="12" y2="23" />
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+      <line x1="1" y1="12" x2="3" y2="12" />
+      <line x1="21" y1="12" x2="23" y2="12" />
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+     </g>
+  </svg></button>
+  <a href="https://github.com/DenysHandziichuk">
+                <img src="https://cdn3.iconfinder.com/data/icons/inficons/512/github.png" id="githubLogo" alt="github">
+  </a>
     </header>
 
     <main>
@@ -23,6 +43,13 @@
                 
               </section>
             </div>
+            <div class="folders">
+              <button data-folder="All" class="active">All</button>
+              <button data-folder="Personal">👤 Personal</button>
+              <button data-folder="Business">💼 Business</button>
+              <button data-folder="Home">🏠 Home</button>
+            </div>
+
             <div class="checkbox">
               <h5>✔️ Show only completed</h5>
               <input type="checkbox" id="toggleCompleted">
@@ -40,11 +67,29 @@
     <div class="modal-content">
         <span class="close-btn" id="closeModal">&times;</span>
         <h2>New Note</h2>
+        <label for="note-folder">Folder:</label>
+        
+
         <input type="text" id="noteTitle" placeholder="Title" />
-        <textarea id="noteDescription" placeholder="Description"></textarea>
-        <button id="saveNoteBtn">Add</button>
-    </div>
-    </div>
-</body>
-<script src="script.js"></script>
+        <div class="toolbar">
+          <button data-cmd="bold"><b>B</b></button>
+          <button data-cmd="italic"><i>I</i></button>
+          <button data-cmd="underline"><u>U</u></button>
+          <button data-cmd="insertUnorderedList">☰</button>
+          <button data-cmd="justifyLeft">⇤</button>
+          <button data-cmd="justifyCenter">≡</button>
+          <button data-cmd="justifyRight">⇥</button>
+        </div>
+
+        <div id="editor" contenteditable="true" class="editor"></div>
+          <select id="note-folder">
+          <option value="Personal">👤 Personal</option>
+          <option value="Business">💼 Business</option>
+          <option value="Home">🏠 Home</option>
+          </select>
+          <button id="saveNoteBtn">Add</button>
+        </div>
+      </div>
+      <script src="script.js"></script>
+    </body>
 </html>
