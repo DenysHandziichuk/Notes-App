@@ -41,7 +41,7 @@ saveNoteBtn.addEventListener("click", () => {
   const folder = document.getElementById("note-folder").value;
 
   if (title && description) {
-    notes.push({ title, description, folder });
+    notes.push({ title, description, folder, completed: false });
     localStorage.setItem("notes", JSON.stringify(notes));
     renderNotes(currentFolder);
     noteTitle.value = "";
@@ -62,8 +62,32 @@ function renderNotes(folder = "All") {
   filteredNotes.forEach((note, index) => {
     const card = document.createElement("div");
     card.className = "note-card";
+  
+  const completedClass = note.completed ? 'completed' : '';
+  card.className = `note-card ${completedClass}`;   
+
+const tagColors = {
+  Business: {
+    bg: getComputedStyle(document.documentElement).getPropertyValue('--tag-business-bg'),
+    color: getComputedStyle(document.documentElement).getPropertyValue('--tag-business-text')
+  },
+  Home: {
+    bg: getComputedStyle(document.documentElement).getPropertyValue('--tag-home-bg'),
+    color: getComputedStyle(document.documentElement).getPropertyValue('--tag-home-text')
+  },
+  Personal: {
+    bg: getComputedStyle(document.documentElement).getPropertyValue('--tag-personal-bg'),
+    color: getComputedStyle(document.documentElement).getPropertyValue('--tag-personal-text')
+  }
+};
+
+const tagStyle = tagColors[note.folder]
+  ? `background-color: ${tagColors[note.folder].bg.trim()}; color: ${tagColors[note.folder].color.trim()};`
+  : '';
+
 
 card.innerHTML = `
+  <span class="tag" style="${tagStyle}">${note.folder}</span>
   <strong>${note.title}</strong><br>
   <div class="note-description">${note.description}</div>
   <div class="note-actions">
@@ -73,11 +97,12 @@ card.innerHTML = `
     <button class="remove-note" data-index="${index}">
       <span class="material-symbols-outlined">delete</span>
     </button>
-    <button class="add-note" data-index="${index}">
-      <span class="material-symbols-outlined">add</span>
+    <button class="complete-note" data-index="${index}">
+      <span class="material-symbols-outlined">check</span>
     </button>
   </div>
 `;
+
  
 
     notesGrid.appendChild(card);
@@ -85,33 +110,35 @@ card.innerHTML = `
 }
 
 notesGrid.addEventListener("click", (e) => {
-  if (e.target.classList.contains("remove-note")) {
-    const idx = parseInt(e.target.dataset.index);
+  const deleteButton = e.target.closest(".remove-note");
+  if (deleteButton) {
+    const idx = parseInt(deleteButton.dataset.index);
     notes.splice(idx, 1);
-    localStorage.setItem("notes", JSON.stringify(notes));
+    if (notes.length === 0) {
+      localStorage.removeItem("notes");
+    } else {
+      localStorage.setItem("notes", JSON.stringify(notes));
+    }
     renderNotes(currentFolder);
-  }
-  if (e.target.classList.contains("add-note")) {
-    const idx = parseInt(e.target.dataset.index);
-    const noteToClone = notes[idx];
-    const newNote = {
-      title: noteToClone.title + " (copy)",
-      description: noteToClone.description,
-      folder: noteToClone.folder
-    };
-    notes.push(newNote);
-    localStorage.setItem("notes", JSON.stringify(notes));
-    renderNotes(currentFolder);
+    return;
   }
 });
 
-notesGrid.addEventListener("change", (e) => {
-  if (e.target.classList.contains("select-note")) {
-    const idx = parseInt(e.target.dataset.index);
-    notes[idx].selected = e.target.checked;
-    // You can do something with this selected property if needed
+notesGrid.addEventListener("click", (e) => {
+  const completeButton = e.target.closest(".complete-note");
+  if (completeButton) {
+    const idx = parseInt(completeButton.dataset.index);
+
+    if (!notes[idx].completed) {   // Only mark if NOT completed yet
+      notes[idx].completed = true;
+      localStorage.setItem("notes", JSON.stringify(notes));
+      renderNotes(currentFolder);
+    }
+    
+    return;
   }
 });
+
 
 function searchNotes() {
   const searchValue = document.getElementById("search").value.toLowerCase();
@@ -128,12 +155,6 @@ function searchNotes() {
 document.getElementById("search").addEventListener("input", searchNotes);
 document.getElementById("search-button").addEventListener("click", searchNotes);
 
-function clearLocalStorage() {
-  localStorage.clear();
-  location.reload();
-}
-
-// Theme toggle setup
 const themeToggleBtn = document.getElementById('theme-toggle');
 
 function setTheme(theme) {
@@ -155,10 +176,12 @@ if (savedTheme) {
 
 themeToggleBtn.addEventListener('click', () => {
   const currentTheme = document.documentElement.getAttribute('data-theme');
-  setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  setTheme(newTheme);
+  renderNotes(currentFolder);
 });
 
-// Toolbar formatting buttons
+
 const toolbar = document.querySelector('.toolbar');
 const editor  = document.getElementById('editor');
 
@@ -185,5 +208,4 @@ function updateToolbarState() {
 }
 updateToolbarState();
 
-// Initial render
 renderNotes(currentFolder);

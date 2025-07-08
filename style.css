@@ -1,4 +1,3 @@
-/* === Root variables for light theme (default) === */
 :root {
   --bg-color: #ffffff;
   --text-color: #222222;
@@ -8,44 +7,57 @@
   --note-bg: #fafafa;
   --note-border: #ddd;
   --modal-bg: #ffffff;
-  --button-bg: #007bff;
-  --button-hover-bg: #0056b3;
+  --tag-business-bg: #e0d4f7;
+  --tag-business-text: #5c2d91;
+  --tag-home-bg: #d5f7d4;
+  --tag-home-text: #2b7a2b;
+  --tag-personal-bg: #ffe0b2;
+  --tag-personal-text: #c77400;
+  --button-bg: var(--primary-color, #007bff);
+  --button-hover-bg: var(--primary-hover-color, #0056b3);
   --folder-bg: #e0e0e0;
   --ease-elastic-3: cubic-bezier(0.5, 1.4, 0.5, 1);
   --ease-elastic-4: cubic-bezier(0.5, 1.6, 0.5, 1);
   --ease-3: ease;
   --ease-out-5: cubic-bezier(0, 0, 0.3, 1);
-  --folder-active-bg: #b0b0ff;
+  --folder-active-bg: var(--primary-color, #b0b0ff);
   --overlay-bg: rgba(0,0,0,0.7);
-  --icon-color: #444;     
+  --icon-color: #444;
   --icon-hover-bg: rgba(0,0,0,0.1);
+  --primary-color: #007bff;
+  --primary-hover-color: #0056b3;
 }
 
-/* === Dark theme overrides === */
 [data-theme="dark"] {
   --bg-color: #121212;
   --text-color: #e0e0e0;
   --header-bg: #1e1e1e;
   --input-bg: #2a2a2a;
+  --tag-business-bg: #4d3a65;
+  --tag-business-text: #d8b9ff;
+  --tag-home-bg: #324b33;
+  --tag-home-text: #baf3ba;
+  --tag-personal-bg: #665132;
+  --tag-personal-text: #ffd699;
   --input-text: #e0e0e0;
   --note-bg: #2a2a2a;
   --note-border: #444;
   --modal-bg: #1e1e1e;
-  --button-bg: #007bff;
-  --button-hover-bg: #0056b3;
+  --button-bg: var(--primary-color, #ff9800);
+  --button-hover-bg: var(--primary-hover-color, #cc7000);
   --folder-bg: #333344;
-  --folder-active-bg: #5050aa;
+  --folder-active-bg: var(--primary-color, #5050aa);
   --overlay-bg: rgba(0, 0, 0, 0.7);
   --icon-color: #eee;
   --icon-hover-bg: rgba(255,255,255,0.15);
+  --primary-color: #ff9800;
+  --primary-hover-color: #cc7000;
 }
 
 :root, body, .app, header, main, .modal-content, .note-card, input, select, button, .folders button {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
 }
 
-
-/* === Global Styles === */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -107,13 +119,6 @@ main h1 {
   margin-bottom: 15px;
 }
 
-.checkbox {
-  justify-content: right;
-  display: flex;
-  align-items: center;
-  padding-bottom: 19px;
-}
-
 main input[type="checkbox"] {
   width: 20px;
   height: 20px;
@@ -128,20 +133,22 @@ main input[type="checkbox"] {
 
 .notes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  padding-top: 25px;
 }
 
 .note-card {
   position: relative;
   background: var(--note-bg);
   border-radius: 12px;
-  padding: 20px;
-  min-height: 100px;
+  padding: 40px;
+  min-height: 200px;
+  padding-bottom: -10px;
   word-wrap: break-word;
   border: 1px solid var(--note-border);
   color: var(--text-color);
-  padding-top: 40px;
+  padding-top: 50px;
 }
 
 .note-card strong {
@@ -149,7 +156,6 @@ main input[type="checkbox"] {
   margin-bottom: 5px;
   font-size: 1.1rem;
 }
-
 
 #addNoteBtn {
   position: fixed;
@@ -172,12 +178,11 @@ main input[type="checkbox"] {
   background-color: var(--button-hover-bg);
 }
 
-/* Modal styles */
 .modal {
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  display: none; /* hidden initially */
+  display: none;
   justify-content: center;
   align-items: center;
   background-color: var(--overlay-bg);
@@ -234,7 +239,7 @@ main input[type="checkbox"] {
   top: 10px;
   right: 14px;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 40px;
   color: var(--text-color);
 }
 
@@ -270,7 +275,6 @@ main input[type="checkbox"] {
   border-radius: 4px;
 }
 
-/* Folders UI */
 .folders {
   display: flex;
   gap: 8px;
@@ -297,7 +301,20 @@ main input[type="checkbox"] {
   font-weight: bold;
 }
 
-/* Editor */
+.folders .only-completed {
+  background: var(--folder-bg);
+  border: none;
+  padding: 8px 14px;
+  font-size: 17px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  color: var(--text-color);
+  display: flex;
+}
+
+
+
 .editor {
   min-height: 330px;
   border: 1px solid var(--note-border);
@@ -330,7 +347,7 @@ main input[type="checkbox"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 12px;
 }
 
 .note-actions button:hover {
@@ -359,7 +376,6 @@ main input[type="checkbox"] {
   transition: all 0.4s ease;
 }
 
-/* Dark mode transforms */
 [data-theme="dark"] .sun-and-moon > .sun {
   transform: scale(5);
   transform: translateY(0);
@@ -370,8 +386,6 @@ main input[type="checkbox"] {
   transform: rotateZ(-25deg);
 }
 
-
-/* Fallback if browser supports cx better */
 @supports (cx: 1) {
   [data-theme="dark"] .sun-and-moon > .moon > circle {
     cx: 17;
@@ -391,12 +405,11 @@ main input[type="checkbox"] {
   transform: translateX(0);
 }
 
-
 #githubLogo {
-  width: 50px;         
-  height: 50px;      
-  cursor: pointer;      
-  border-radius: 6px;    
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  border-radius: 6px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   transition: transform 0.2s ease;
   vertical-align: middle;
@@ -408,3 +421,20 @@ main input[type="checkbox"] {
   transform: scale(1.1);
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
+
+
+.tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: sans-serif;
+  white-space: nowrap;
+}
+
