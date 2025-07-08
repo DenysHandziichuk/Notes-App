@@ -55,16 +55,20 @@ saveNoteBtn.addEventListener("click", () => {
 function renderNotes(folder = "All") {
   notesGrid.innerHTML = "";
 
-  const filteredNotes = folder === "All"
-    ? notes
-    : notes.filter(note => note.folder === folder);
+  let filteredNotes = [];
+
+  if (folder === "All") {
+    filteredNotes = notes;
+  } else if (folder === "Completed") {
+    filteredNotes = notes.filter(n => n.completed);
+  } else {
+    filteredNotes = notes.filter(note => note.folder === folder);
+  }
 
   filteredNotes.forEach((note, index) => {
     const card = document.createElement("div");
-    card.className = "note-card";
-  
-  const completedClass = note.completed ? 'completed' : '';
-  card.className = `note-card ${completedClass}`;   
+    const completedClass = note.completed ? 'completed' : '';
+    card.className = `note-card ${completedClass}`;
 
 const tagColors = {
   Business: {
@@ -109,6 +113,7 @@ card.innerHTML = `
   });
 }
 
+
 notesGrid.addEventListener("click", (e) => {
   const deleteButton = e.target.closest(".remove-note");
   if (deleteButton) {
@@ -129,7 +134,7 @@ notesGrid.addEventListener("click", (e) => {
   if (completeButton) {
     const idx = parseInt(completeButton.dataset.index);
 
-    if (!notes[idx].completed) {   // Only mark if NOT completed yet
+    if (!notes[idx].completed) {
       notes[idx].completed = true;
       localStorage.setItem("notes", JSON.stringify(notes));
       renderNotes(currentFolder);
@@ -206,6 +211,7 @@ function updateToolbarState() {
     }
   });
 }
+
 updateToolbarState();
 
 renderNotes(currentFolder);

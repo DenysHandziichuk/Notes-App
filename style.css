@@ -8,6 +8,10 @@
   --note-border: #ddd;
   --modal-bg: #ffffff;
   --tag-business-bg: #e0d4f7;
+  --completed-border: #2196f3;
+  --completed-bg: #e3f2fd;
+  --completed-text: #0d47a1;
+  --icon-color: #555;
   --tag-business-text: #5c2d91;
   --tag-home-bg: #d5f7d4;
   --tag-home-text: #2b7a2b;
@@ -34,6 +38,10 @@
   --header-bg: #1e1e1e;
   --input-bg: #2a2a2a;
   --tag-business-bg: #4d3a65;
+  --completed-border: #64b5f6;
+  --completed-bg: #0d1117;
+  --completed-text: #ff8f6c;
+  --icon-color: #bbb;
   --tag-business-text: #d8b9ff;
   --tag-home-bg: #324b33;
   --tag-home-text: #baf3ba;
@@ -438,3 +446,45 @@ main input[type="checkbox"] {
   white-space: nowrap;
 }
 
+.note-card.completed {
+  opacity: 0.85;
+  border: 2px solid var(--primary-color);
+  background-color: var(--completed-bg);
+  transition: all 0.3s ease-in-out;
+}
+
+.note-card.completed strong {
+  text-decoration: line-through;
+  color: var(--primary-color);
+}
+
+
+.complete-note span {
+  transition: transform 0.3s ease, color 0.3s ease;
+  color: var(--icon-color);
+}
+
+.note-card.completed .complete-note span {
+  transform: scale(1.4) rotate(360deg);
+  color: var(--primary-color);
+}
+
+
+.note-card.completed {
+  animation: pulseFade 0.35s ease-in-out;
+}
+
+@keyframes pulseFade {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(33, 150, 243, 0.2);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 10px rgba(33, 150, 243, 0.4);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(33, 150, 243, 0.2);
+  }
+}
