@@ -70,48 +70,56 @@ function renderNotes(folder = "All") {
     const completedClass = note.completed ? 'completed' : '';
     card.className = `note-card ${completedClass}`;
 
-const tagColors = {
-  Business: {
-    bg: getComputedStyle(document.documentElement).getPropertyValue('--tag-business-bg'),
-    color: getComputedStyle(document.documentElement).getPropertyValue('--tag-business-text')
-  },
-  Home: {
-    bg: getComputedStyle(document.documentElement).getPropertyValue('--tag-home-bg'),
-    color: getComputedStyle(document.documentElement).getPropertyValue('--tag-home-text')
-  },
-  Personal: {
-    bg: getComputedStyle(document.documentElement).getPropertyValue('--tag-personal-bg'),
-    color: getComputedStyle(document.documentElement).getPropertyValue('--tag-personal-text')
-  }
-};
+    const tagColors = {
+      Business: {
+        bg: getComputedStyle(document.documentElement).getPropertyValue('--tag-business-bg'),
+        color: getComputedStyle(document.documentElement).getPropertyValue('--tag-business-text')
+      },
+      Home: {
+        bg: getComputedStyle(document.documentElement).getPropertyValue('--tag-home-bg'),
+        color: getComputedStyle(document.documentElement).getPropertyValue('--tag-home-text')
+      },
+      Personal: {
+        bg: getComputedStyle(document.documentElement).getPropertyValue('--tag-personal-bg'),
+        color: getComputedStyle(document.documentElement).getPropertyValue('--tag-personal-text')
+      }
+    };
 
-const tagStyle = tagColors[note.folder]
-  ? `background-color: ${tagColors[note.folder].bg.trim()}; color: ${tagColors[note.folder].color.trim()};`
-  : '';
+    const tagStyle = tagColors[note.folder]
+      ? `background-color: ${tagColors[note.folder].bg.trim()}; color: ${tagColors[note.folder].color.trim()};`
+      : '';
 
-
-card.innerHTML = `
-  <span class="tag" style="${tagStyle}">${note.folder}</span>
-  <strong>${note.title}</strong><br>
-  <div class="note-description">${note.description}</div>
-  <div class="note-actions">
-    <button class="edit-note" data-index="${index}">
-      <span class="material-symbols-outlined">edit</span>
-    </button>
-    <button class="remove-note" data-index="${index}">
-      <span class="material-symbols-outlined">delete</span>
-    </button>
-    <button class="complete-note" data-index="${index}">
-      <span class="material-symbols-outlined">check</span>
-    </button>
-  </div>
-`;
-
- 
+    card.innerHTML = `
+      <span class="tag" style="${tagStyle}">${note.folder}</span>
+      <strong>${note.title}</strong><br>
+      <div class="note-description">${note.description}</div>
+      <div class="note-actions">
+        <button class="edit-note" data-index="${index}">
+          <span class="material-symbols-outlined">edit</span>
+        </button>
+        <button class="remove-note" data-index="${index}">
+          <span class="material-symbols-outlined">delete</span>
+        </button>
+        <button class="complete-note" data-index="${index}">
+          <span class="material-symbols-outlined">check</span>
+        </button>
+      </div>
+    `;
 
     notesGrid.appendChild(card);
+
+    if (note.completed) {
+      const completeBtn = card.querySelector(".complete-note");
+      if (completeBtn) {
+        completeBtn.disabled = true;
+        completeBtn.style.cursor = "not-allowed";
+        completeBtn.style.opacity = "0.6";
+        completeBtn.title = "Already completed";
+      }
+    }
   });
 }
+
 
 
 notesGrid.addEventListener("click", (e) => {
@@ -125,6 +133,19 @@ notesGrid.addEventListener("click", (e) => {
       localStorage.setItem("notes", JSON.stringify(notes));
     }
     renderNotes(currentFolder);
+
+    Toastify({
+    text: "Note successfully deleted!",
+    duration: 2500,
+    gravity: "bottom",
+    position: "right",
+    className: "note-deleted-notify",
+    style: {
+      background: getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim(),
+    },
+    close: true,
+    stopOnFocus: true 
+      }).showToast();
     return;
   }
 });
@@ -138,11 +159,24 @@ notesGrid.addEventListener("click", (e) => {
       notes[idx].completed = true;
       localStorage.setItem("notes", JSON.stringify(notes));
       renderNotes(currentFolder);
+
+      Toastify({
+        text: "Note successfully completed!",
+        duration: 2500,
+        gravity: "bottom",
+        position: "right",
+        className: "note-deleted-notify",
+        style: {
+          background: getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim(),
+        },
+        close: true,
+        stopOnFocus: true
+      }).showToast();
     }
-    
     return;
   }
 });
+
 
 
 function searchNotes() {

@@ -62,7 +62,7 @@
   --primary-hover-color: #cc7000;
 }
 
-:root, body, .app, header, main, .modal-content, .note-card, input, select, button, .folders button {
+:root, body, .app, header, main, .modal-content, .note-deleted-notify, .note-card, input, select, button, .folders button {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
 }
 
@@ -168,7 +168,7 @@ main input[type="checkbox"] {
 #addNoteBtn {
   position: fixed;
   bottom: 20px;
-  right: 40px;
+  right: 460px;
   background-color: var(--button-bg);
   color: white;
   border: none;
@@ -487,4 +487,10 @@ main input[type="checkbox"] {
     transform: scale(1);
     box-shadow: 0 0 0 rgba(33, 150, 243, 0.2);
   }
+}
+
+
+.note-deleted-notify {
+  background-color: #ff0000;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
