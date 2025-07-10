@@ -50,6 +50,18 @@ saveNoteBtn.addEventListener("click", () => {
   } else {
     alert("Please fill in both fields.");
   }
+  Toastify({
+        text: "Note successfully created!",
+        duration: 2500,
+        gravity: "bottom",
+        position: "right",
+        className: "note-deleted-notify",
+        style: {
+          background: getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim(),
+        },
+        close: true,
+        stopOnFocus: true
+      }).showToast();
 });
 
 function renderNotes(folder = "All") {
