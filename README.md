@@ -17,8 +17,8 @@ A clean, responsive Notes App built with HTML, CSS, and JavaScript. Easily creat
 
 ## 📸 Screenshots
 
-#### 🖼️ All Notes View  
+#### 🖼️ Light Theme 
 ![Light Theme](assets/preview1.png)
 
-#### 🗂️ Folder Filter & Modal  
+#### 🗂️ Dark Theme  
 ![Dark Theme](assets/preview2.png)
