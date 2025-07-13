@@ -9,10 +9,17 @@ const notesGrid = document.getElementById("notesGrid");
 
 let notes = JSON.parse(localStorage.getItem("notes")) || [];
 let currentFolder = "All";
+let editingNoteIndex = null;
 
 addNoteBtn.addEventListener("click", () => {
+  editingNoteIndex = null;
+  noteTitle.value = "";
+  noteDescription.innerHTML = "";
+  document.querySelector("#noteModal h2").textContent = "New Note";
+  saveNoteBtn.textContent = "Add";
   noteModal.style.display = "flex";
 });
+
 
 closeModal.addEventListener("click", () => {
   noteModal.style.display = "none";
@@ -41,16 +48,27 @@ saveNoteBtn.addEventListener("click", () => {
   const folder = document.getElementById("note-folder").value;
 
   if (title && description) {
-    notes.push({ title, description, folder, completed: false });
-    localStorage.setItem("notes", JSON.stringify(notes));
-    renderNotes(currentFolder);
-    noteTitle.value = "";
-    noteDescription.innerHTML = "";
-    noteModal.style.display = "none";
-  } else {
-    alert("Please fill in both fields.");
-  }
-  Toastify({
+    if (editingNoteIndex !== null) {
+      notes[editingNoteIndex].title = title;
+      notes[editingNoteIndex].description = description;
+      notes[editingNoteIndex].folder = folder;
+      notes[editingNoteIndex].completed = false;
+      editingNoteIndex = null;
+      Toastify({
+        text: "Note successfully updated!",
+        duration: 2500,
+        gravity: "bottom",
+        position: "right",
+        className: "note-deleted-notify",
+        style: {
+          background: getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim(),
+        },
+        close: true,
+        stopOnFocus: true
+      }).showToast();
+    } else {
+      notes.push({ title, description, folder, completed: false });
+      Toastify({
         text: "Note successfully created!",
         duration: 2500,
         gravity: "bottom",
@@ -62,7 +80,18 @@ saveNoteBtn.addEventListener("click", () => {
         close: true,
         stopOnFocus: true
       }).showToast();
+    }
+
+    localStorage.setItem("notes", JSON.stringify(notes));
+    renderNotes(currentFolder);
+    noteTitle.value = "";
+    noteDescription.innerHTML = "";
+    noteModal.style.display = "none";
+  } else {
+    alert("Please fill in both fields.");
+  }
 });
+
 
 function renderNotes(folder = "All") {
   notesGrid.innerHTML = "";
@@ -118,6 +147,11 @@ function renderNotes(folder = "All") {
       </div>
     `;
 
+    const editBtn = card.querySelector(".edit-note");
+    editBtn.addEventListener("click", () => {
+      editNote(index);
+    });
+
     notesGrid.appendChild(card);
 
     if (note.completed) {
@@ -130,6 +164,19 @@ function renderNotes(folder = "All") {
       }
     }
   });
+}
+
+
+
+function editNote(index) {
+  const note = notes[index];
+  editingNoteIndex = index;
+  noteTitle.value = note.title;
+  noteDescription.innerHTML = note.description;
+  document.getElementById("note-folder").value = note.folder;
+  document.querySelector("#noteModal h2").textContent = "Edit Note";
+  saveNoteBtn.textContent = "Save";
+  noteModal.style.display = "flex";
 }
 
 
