@@ -494,3 +494,31 @@ main input[type="checkbox"] {
   background-color: #ff0000;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+
+.add-note-message {
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.add-first-note {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; 
+  gap: 10px;
+  font-size: 40px;
+  padding-top: 10vh;
+  filter: opacity(60%);
+  height: 100vh;
+  width: 100%;
+  text-align: center;
+}
+
+#note-icon {
+  border: none;
+  font-size: 100px;
+  border-radius: 8px;
+  cursor: none;
+  transition: background 0.2s;
+}

@@ -105,6 +105,14 @@ function renderNotes(folder = "All") {
   } else {
     filteredNotes = notes.filter(note => note.folder === folder);
   }
+  
+  const noNotesMessage = document.getElementById("add-first-note");
+
+  if (filteredNotes.length === 0) {
+    noNotesMessage.style.display = "block";
+  } else {
+    noNotesMessage.style.display = "none";
+  }
 
   filteredNotes.forEach((note, index) => {
     const card = document.createElement("div");
