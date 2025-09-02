@@ -78,12 +78,14 @@ body {
   color: var(--text-color);
   transition: background-color 0.3s ease, color 0.3s ease;
   min-height: 100vh;
-  padding: 20px;
+  font-size: clamp(14px, 1.2vw, 18px);
+  padding: 2vw;
 }
 
 .app {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 0 2vw;
   position: relative;
 }
 
@@ -100,23 +102,25 @@ header {
 }
 
 header input[type="text"] {
-  flex-grow: 1;
+  flex: 1 1 200px;
   padding: 10px;
   border-radius: 8px;
   border: none;
   background: var(--input-bg);
   color: var(--input-text);
-  min-width: 200px;
+  min-width: 140px;
+  font-size: 1rem;
 }
 
 header button {
   background: var(--button-bg);
   color: white;
   border: none;
-  padding: 10px 14px;
+  padding: 0.7em 1em;
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.2s;
+  font-size: 0.95rem;
 }
 
 header button:hover {
@@ -141,21 +145,21 @@ main input[type="checkbox"] {
 
 .notes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 25px;
-  padding-top: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+  padding-top: 20px;
 }
 
 .note-card {
   position: relative;
   background: var(--note-bg);
   border-radius: 12px;
-  padding: 40px;
-  min-height: 200px;
-  padding-bottom: -10px;
+  padding: 1.5rem;
+  min-height: 180px;
   word-wrap: break-word;
   border: 1px solid var(--note-border);
   color: var(--text-color);
+  font-size: 0.95rem;
   padding-top: 50px;
 }
 
@@ -167,15 +171,15 @@ main input[type="checkbox"] {
 
 #addNoteBtn {
   position: fixed;
-  bottom: 20px;
-  right: 460px;
+  bottom: 5%;
+  right: 5%;
   background-color: var(--button-bg);
   color: white;
   border: none;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  font-size: 30px;
+  width: 55px;
+  height: 55px;
+  font-size: 28px;
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
   transition: background-color 0.3s ease;
@@ -200,10 +204,10 @@ main input[type="checkbox"] {
 .modal-content {
   background-color: var(--modal-bg);
   color: var(--text-color);
-  padding: 20px;
+  padding: 16px;
   border-radius: 12px;
-  width: 700px;
-  max-width: 90vw;
+  width: 90%;
+  max-width: 600px;
   max-height: 80vh;
   overflow-y: auto;
   display: flex;
@@ -212,6 +216,7 @@ main input[type="checkbox"] {
   box-sizing: border-box;
   position: relative;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  font-size: 0.95rem;
 }
 
 .modal-content input,
@@ -285,7 +290,8 @@ main input[type="checkbox"] {
 
 .folders {
   display: flex;
-  gap: 8px;
+  gap: 6px;
+  flex-wrap: wrap;
   padding: 10px 0;
 }
 
@@ -293,11 +299,13 @@ main input[type="checkbox"] {
   background: var(--folder-bg);
   border: none;
   padding: 8px 14px;
-  font-size: 15px;
+  font-size: 0.9rem;
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.2s ease;
   color: var(--text-color);
+  flex: 1 1 auto;
+  min-width: 100px;
 }
 
 .folders button:hover {
@@ -310,18 +318,9 @@ main input[type="checkbox"] {
 }
 
 .folders .only-completed {
-  background: var(--folder-bg);
-  border: none;
-  padding: 8px 14px;
-  font-size: 17px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  color: var(--text-color);
+  font-size: 0.95rem;
   display: flex;
 }
-
-
 
 .editor {
   min-height: 330px;
@@ -414,14 +413,13 @@ main input[type="checkbox"] {
 }
 
 #githubLogo {
-  width: 50px;
-  height: 50px;
+  width: clamp(36px, 8vw, 50px);
+  height: clamp(36px, 8vw, 50px);
   cursor: pointer;
   border-radius: 6px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   transition: transform 0.2s ease;
   vertical-align: middle;
-  margin-left: 0px;
   display: inline-block;
 }
 
@@ -429,7 +427,6 @@ main input[type="checkbox"] {
   transform: scale(1.1);
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
-
 
 .tag {
   position: absolute;
@@ -458,7 +455,6 @@ main input[type="checkbox"] {
   color: var(--primary-color);
 }
 
-
 .complete-note span {
   transition: transform 0.3s ease, color 0.3s ease;
   color: var(--icon-color);
@@ -468,7 +464,6 @@ main input[type="checkbox"] {
   transform: scale(1.4) rotate(360deg);
   color: var(--primary-color);
 }
-
 
 .note-card.completed {
   animation: pulseFade 0.35s ease-in-out;
@@ -489,12 +484,10 @@ main input[type="checkbox"] {
   }
 }
 
-
 .note-deleted-notify {
   background-color: #ff0000;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
 
 .add-note-message {
   font-weight: bold;
@@ -507,8 +500,8 @@ main input[type="checkbox"] {
   align-items: center;
   justify-content: center; 
   gap: 10px;
-  font-size: 40px;
-  padding-top: 10vh;
+  font-size: clamp(22px, 5vw, 40px);
+  padding-top: 8vh;
   filter: opacity(60%);
   height: 100vh;
   width: 100%;
@@ -517,8 +510,55 @@ main input[type="checkbox"] {
 
 #note-icon {
   border: none;
-  font-size: 100px;
+  font-size: clamp(60px, 12vw, 100px);
   border-radius: 8px;
   cursor: none;
   transition: background 0.2s;
+}
+
+/* ------------------ RESPONSIVE MEDIA QUERIES ------------------ */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .note-card {
+    padding: 1rem;
+    min-height: 150px;
+  }
+
+  #addNoteBtn {
+    bottom: 15px;
+    right: 15px;
+    width: 50px;
+    height: 50px;
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+
+  header input[type="text"] {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  header button {
+    font-size: 0.85rem;
+    padding: 8px 10px;
+  }
+
+  .folders button {
+    min-width: 80px;
+    font-size: 0.85rem;
+  }
+
+  .modal-content {
+    width: 95%;
+    max-height: 85vh;
+  }
 }
